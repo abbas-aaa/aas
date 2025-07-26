@@ -1,0 +1,143 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <title>وثيقة QR</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+        body {
+            font-family: 'Amiri', serif;
+            position: relative;
+            margin: 40px;
+            line-height: 1.8;
+            color: #000;
+        }
+
+        .watermark {
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            width: 400px;
+            opacity: 0.06;
+            transform: translate(-50%, -50%);
+            z-index: 0;
+        }
+
+        .header, .footer, .content {
+            position: relative;
+            z-index: 1;
+        }
+
+        .qr-box {
+            border: 2px dashed #888;
+            padding: 20px;
+            text-align: center;
+            margin-top: 20px;
+            width: fit-content;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .qr-box img {
+            width: 200px;
+            height: 200px;
+        }
+
+        .info-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: flex-start;
+        }
+
+        .info-left, .info-right {
+            width: 30%;
+            font-size: 14px;
+        }
+
+        .center-logo {
+            text-align: center;
+            margin-top: -20px;
+        }
+
+        .note-title {
+            font-weight: bold;
+            font-size: 20px;
+            margin: 20px 0;
+            text-align: center;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 40px;
+            font-size: 13px;
+        }
+    </style>
+
+    <script>
+    window.onload = function () {
+        const urlParams = new URLSearchParams(window.location.search);
+        if (urlParams.get('print') === '1') {
+            window.print();
+        }
+    };
+    </script>
+
+</head>
+<body>
+
+    <!-- ✅ الشعار كعلامة مائية -->
+    <img src="{{ logo_url }}" class="watermark" alt="علامة أمان">
+
+    <!-- ✅ رأس الصفحة -->
+    <div class="header">
+        <div class="info-header">
+            <div class="info-left">
+                <strong>اتحاد الصحفيين العراقيين</strong><br>
+                المقر العام<br>
+                تاريخ رفع الوثيقة: {{ note.created_at|date:"Y-m-d" }}<br>
+                تاريخ رمز التحقق: {{ now|date:"Y-m-d" }}
+            </div>
+            <div class="info-right" style="text-align: left;">
+                <strong>رقم الوثيقة:</strong> ____________<br>
+                تاريخ الطباعة: {{ now|date:"Y-m-d" }}
+            </div>
+        </div>
+
+        <div class="center-logo">
+            <img src="{{ logo_url }}" alt="شعار الاتحاد" width="80">
+        </div>
+    </div>
+
+    <!-- ✅ محتوى الوثيقة -->
+    <div class="content">
+        <p style="text-align: center;">
+            إن محافظتك على هذه الوثيقة دون ضرر يُمكنك من استخدامها في الدوائر المرتبطة بهذا النظام.<br>
+            يمكنك حفظ صورة الوثيقة في هاتفك لاستخدامها عند الضرورة.<br>
+            تؤيّد صحة صدور الوثيقة الإلكترونية بعد مطابقتها مع الوثيقة الورقية.<br>
+            <strong>وثيقة خاصة لا يمكن قراءتها إلا بحساب من الاتحاد</strong>
+        </p>
+
+        <p style="text-align: center; font-size: 15px; margin-bottom: 10px;">
+            فترة استخدام الوثيقة مرتبطة بتاريخ رمز التحقق
+        </p>
+
+        {% if img_str %}
+        <div class="qr-box">
+            <img src="data:image/png;base64,{{ img_str }}" alt="QR Code">
+            <p style="font-size: 14px; margin-top: 10px;">{{ note.access_token }}</p>
+        </div>
+        {% else %}
+        <p style="color: red; text-align: center; font-weight: bold;">⚠️ رمز QR غير متوفر أو تم حذفه.</p>
+        {% endif %}
+    </div>
+
+    <!-- ✅ التذييل -->
+    <div class="footer">
+        في حال حدوث تلكؤ أو مشكلة في قراءة الرمز السريع، يرجى التواصل مع الدعم الفني للاتحاد.<br>
+        <strong>{{ site_url }}</strong> | <strong>0771214328</strong><br><br>
+        <strong>رئيس اتحاد الصحفيين العراقيين</strong><br>
+        <strong>مظفر عبد المجيد المحمداوي</strong>
+    </div>
+
+</body>
+</html>
