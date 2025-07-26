@@ -1,0 +1,45 @@
+# Python cache and compiled files
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.pyc
+
+# Virtual environments
+venv/
+.env/
+.venv/
+
+# Django stuff
+*.log
+*.pot
+local_settings.py
+media/
+staticfiles/
+
+# VS Code settings
+.vscode/
+
+# macOS
+.DS_Store
+
+# Deployment and environment files
+.env
+.env.local
+.env.production
+.env.example
+
+
+# Compiled translation files
+*.mo
+
+# Swap files (vim, etc.)
+*.swp
+
+# Node.js dependencies and logs
+node_modules/
+npm-debug.log
+
+# Backup and original files
+*.bak
+*.orig
